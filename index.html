@@ -76,11 +76,11 @@
         .game {
             position: relative;
             width:400px;
-            height: 550px;
+            height: 560px;
             overflow: hidden;
            
             
-            margin-top: -0px;
+            margin-bottom: 2px;
             
             display: none; /* Par défaut, le jeu est caché */
         }
@@ -312,7 +312,7 @@
                 var pipes = document.querySelectorAll(".pipe");
                 pipes.forEach(function(pipe) {
                     if (!gameover) {
-                        pipe.style.left = (parseInt(pipe.style.left) - 1) + "px"; // Faire défiler les tuyaux vers la gauche
+                        pipe.style.left = (parseInt(pipe.style.left) - 2) + "px"; // Faire défiler les tuyaux vers la gauche (augmenté à 2 pixels)
 
                         // Supprimer les tuyaux une fois qu'ils sortent de l'écran
                         if (parseInt(pipe.style.left) < -50) {
@@ -341,7 +341,7 @@
                         }
                     }
                 });
-            }, 10); // Vitesse de défilement des tuyaux
+            }, 5); // Vitesse de défilement des tuyaux (augmentée à 5 millisecondes)
         }
 
         // Fonction pour créer un tuyau
