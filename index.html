@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pupuce Bird</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blue-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1e90ff; /* Couleur de fond */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    font-size: 3em;
+    margin-bottom: 30px;
+}
+
+
+        button {
+             background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+}
+
+        .container {
+            text-align: center;
+
+            width: 80%; /* Largeur du conteneur */
+    height: 80vh; /* Hauteur du conteneur */
+    background-image: url('./img/fondflappy.jpg'); /* Remplacez 'chemin/vers/votre/image.jpg' par le chemin de votre image de fond */
+    background-size: cover; /* Redimensionner l'image pour couvrir tout le conteneur */
+    background-position: center; /* Centrer l'image dans le conteneur */
+        }
+
+        .game {
+            position: relative;
+            position: fixed;
+            top: 240px;
+            left:20px;
+            width: 450px;
+            height:450px;
+            
+            background-image: url('background.jpg'); /* Image de fond */
+            background-size: cover; /* Redimensionner l'image pour remplir le conteneur */
+            display: none;
+        }
+
+        .ball {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="blue-background">
+        <div class="container">
+            <div class="menu" id="menu">
+                <h1>Pupuce Bird</h1>
+                <button onclick="startGame()">Jouer</button>
+            </div>
+            <div class="game" id="game">
+                <div class="ball"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        var gravity = 0.1; // Gravité
+        var velocity = 0; // Vitesse initiale
+
+        function startGame() {
+            var menu = document.getElementById("menu");
+            var game = document.getElementById("game");
+
+            // Cacher le menu
+            menu.style.display = "none";
+            // Afficher le jeu
+            game.style.display = "block";
+
+            // Récupérer la balle
+            var ball = document.querySelector(".ball");
+
+            // Ajouter un écouteur d'événements pour le clic
+            game.addEventListener("click", function() {
+                velocity = -2; // Vitesse vers le haut lors du clic
+            });
+
+            // Fonction de mise à jour de la position de la balle
+            function update() {
+                // Mettre à jour la vitesse avec la gravité
+                velocity += gravity;
+                // Mettre à jour la position verticale de la balle
+                var position = parseFloat(getComputedStyle(ball).top);
+                ball.style.top = position + velocity + "px";
+
+                // Limiter la position de la balle pour éviter qu'elle ne sorte de l'écran
+                if (position < 0) {
+                    ball.style.top = "0px";
+                    velocity = 0;
+                } else if (position > (game.offsetHeight - ball.offsetHeight)) {
+                    ball.style.top = (game.offsetHeight - ball.offsetHeight) + "px";
+                    velocity = 0;
+                }
+
+                // Demander une nouvelle animation
+                requestAnimationFrame(update);
+            }
+
+            // Lancer la mise à jour
+            update();
+        }
+    </script>
+</body>
+</html>
