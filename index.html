@@ -45,11 +45,11 @@
         .container {
             text-align: center;
             width: 60%; /* Largeur du conteneur */
-            height: 700px; /* Hauteur du conteneur */
+            height: 600px; /* Hauteur du conteneur */
             background-image: url('./img/fondflappy.jpg'); /* Remplacez 'chemin/vers/votre/image.jpg' par le chemin de votre image de fond */
             background-size: cover; /* Redimensionner l'image pour couvrir tout le conteneur */
             background-position: center; /* Centrer l'image dans le conteneur */
-            width: 400px;
+            width: 300px;
     background-color: #1c1f24;
     
     border-radius: 20px;
@@ -75,12 +75,13 @@
 
         .game {
             position: relative;
-            width:400px;
-            height: 560px;
+            width:290px;
+            height: 480px;
             overflow: hidden;
            
             
             margin-bottom: 2px;
+            
             
             display: none; /* Par défaut, le jeu est caché */
         }
@@ -103,7 +104,7 @@
             transform: rotate(180deg); /* Rotation de 180 degrés */
             
             bottom: -20px;
-            min-height: 200px;
+            min-height: 100px;
            
         }
 
@@ -221,7 +222,7 @@
 
             // Réinitialiser l'intervalle de création de tuyaux
             clearInterval(pipeMoveInterval);
-            pipeCreationInterval = 2000;
+            pipeCreationInterval = 1000;
 
             // Réinitialiser le jeu terminé
             gameover = false;
@@ -322,14 +323,14 @@
                         // Vérifie si le tuyau est passé avec succès
                         if (parseInt(pipe.style.left) < 20 && !pipe.passed) {
                             pipe.passed = true; // Marque le tuyau comme passé
-                            score++; // Incrémente le score
+                            (score++) ; // Incrémente le score
 
                             // Jouer le son
                             audio.currentTime = 0; // Réinitialise le son à 0 pour qu'il puisse être joué à chaque fois
                             audio.play();
 
                             // Met à jour l'affichage du score
-                            scoreDisplay.textContent = score;
+                            scoreDisplay.textContent = score/2;
 
                             // Vérifie si le score est un multiple de 5 pour accélérer les tuyaux
                             if (score % 5 === 0) {
