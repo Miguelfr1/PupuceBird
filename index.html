@@ -191,13 +191,13 @@
     <audio id="audio" src="./img/audio.wav"></audio>
 
     <script src="script.js"></script>
-    <script>
+     <script>
         var gravity = 0.1; // Gravité
         var velocity = 0; // Vitesse initiale
         var game = document.getElementById("game");
         var score = 0; // Variable pour stocker le score
         var scoreDisplay = document.getElementById("score"); // Référence à l'élément d'affichage du score
-        var pipeCreationInterval = 2500; // Intervalle initial entre chaque création de tuyau (en millisecondes)
+        var pipeCreationInterval = 1700; // Intervalle initial entre chaque création de tuyau (en millisecondes)
         var pipeMoveInterval; // Référence à l'intervalle de défilement des tuyaux
         var gameover = false; // Variable pour indiquer si le jeu est terminé
         var audio = document.getElementById("audio"); // Élément audio
@@ -222,7 +222,7 @@
 
             // Réinitialiser l'intervalle de création de tuyaux
             clearInterval(pipeMoveInterval);
-            pipeCreationInterval = 2500;
+            pipeCreationInterval = 1700;
 
             // Réinitialiser le jeu terminé
             gameover = false;
