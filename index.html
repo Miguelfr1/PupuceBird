@@ -197,7 +197,7 @@
         var game = document.getElementById("game");
         var score = 0; // Variable pour stocker le score
         var scoreDisplay = document.getElementById("score"); // Référence à l'élément d'affichage du score
-        var pipeCreationInterval = 1000; // Intervalle initial entre chaque création de tuyau (en millisecondes)
+        var pipeCreationInterval = 2500; // Intervalle initial entre chaque création de tuyau (en millisecondes)
         var pipeMoveInterval; // Référence à l'intervalle de défilement des tuyaux
         var gameover = false; // Variable pour indiquer si le jeu est terminé
         var audio = document.getElementById("audio"); // Élément audio
@@ -212,7 +212,7 @@
 
             // Réinitialiser le score
             score = 0;
-            scoreDisplay.textContent = score/2;
+            scoreDisplay.textContent = score / 2;
 
             // Supprimer tous les tuyaux existants
             var pipes = document.querySelectorAll(".pipe");
@@ -222,7 +222,7 @@
 
             // Réinitialiser l'intervalle de création de tuyaux
             clearInterval(pipeMoveInterval);
-            pipeCreationInterval = 1000;
+            pipeCreationInterval = 2500;
 
             // Réinitialiser le jeu terminé
             gameover = false;
@@ -295,7 +295,7 @@
         function gameOver() {
             gameover = true; // Le jeu est terminé
             clearInterval(pipeMoveInterval); // Arrête l'intervalle de défilement des tuyaux
-            document.getElementById("final-score").textContent = score/2; // Affiche le score final
+            document.getElementById("final-score").textContent = score / 2; // Affiche le score final
             document.getElementById("game-over").style.display = "block"; // Affiche l'écran de fin de partie
         }
 
@@ -313,7 +313,7 @@
                 var pipes = document.querySelectorAll(".pipe");
                 pipes.forEach(function(pipe) {
                     if (!gameover) {
-                        pipe.style.left = (parseInt(pipe.style.left) - 1) + "px"; // Faire défiler les tuyaux vers la gauche (diminué à 1 pixel)
+                        pipe.style.left = (parseInt(pipe.style.left) - 1.5) + "px"; // Faire défiler les tuyaux vers la gauche (diminué à 1.5 pixels)
 
                         // Supprimer les tuyaux une fois qu'ils sortent de l'écran
                         if (parseInt(pipe.style.left) < -50) {
@@ -330,7 +330,7 @@
                             audio.play();
 
                             // Met à jour l'affichage du score
-                            scoreDisplay.textContent = score/2;
+                            scoreDisplay.textContent = score / 2;
 
                             // Vérifie si le score est un multiple de 5 pour accélérer les tuyaux
                             if (score % 5 === 0) {
