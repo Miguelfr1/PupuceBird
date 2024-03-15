@@ -7,8 +7,6 @@
     <link rel="icon" href="./img/adbird.png">
     <link rel="stylesheet" href="styles.css">
     <style>
-
-        
         .blue-background {
             position: fixed;
             top: 0;
@@ -26,8 +24,6 @@
             text-shadow: 2px 2px 4px #000000;
             font-size: 3em;
             margin-bottom: 200px;
-           
-           
         }
 
         button {
@@ -39,7 +35,6 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-            
         }
 
         .container {
@@ -50,102 +45,30 @@
             background-size: cover; /* Redimensionner l'image pour couvrir tout le conteneur */
             background-position: center; /* Centrer l'image dans le conteneur */
             width: 300px;
-    background-color: #1c1f24;
-    
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-    border: 5px solid green;
-    
+            background-color: #1c1f24;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            border: 5px solid green;
         }
 
         body {
-            <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pupuce Bird</title>
-    <link rel="icon" href="./img/adbird.png">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-
-        
-        .blue-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1e90ff; /* Couleur de fond */
+            background: linear-gradient(to bottom right, #4b6cb7, #182848);
+            font-family: 'Quicksand', sans-serif;
+            color: #fff;
+            margin: 0;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-
-        h1 {
-            color: white;
-            text-shadow: 2px 2px 4px #000000;
-            font-size: 3em;
-            margin-bottom: 200px;
-           
-           
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            
-        }
-
-        .container {
-            text-align: center;
-            width: 60%; /* Largeur du conteneur */
-            height: 600px; /* Hauteur du conteneur */
-            background-image: url('./img/fondflappy.jpg'); /* Remplacez 'chemin/vers/votre/image.jpg' par le chemin de votre image de fond */
-            background-size: cover; /* Redimensionner l'image pour couvrir tout le conteneur */
-            background-position: center; /* Centrer l'image dans le conteneur */
-            width: 300px;
-    background-color: #1c1f24;
-    
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-    border: 5px solid green;
-    
-        }
-
-        body {
-    background: linear-gradient(to bottom right, #4b6cb7, #182848);
-    font-family: 'Quicksand', sans-serif;
-    color: #fff;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    user-select: none;
-    
-}
-
-
 
         .game {
             position: relative;
-            width:290px;
+            width: 290px;
             height: 480px;
             overflow: hidden;
-           
-            
             margin-bottom: 2px;
-            
-            
             display: none; /* Par défaut, le jeu est caché */
         }
 
@@ -157,18 +80,13 @@
 
         .pipe.top {
             top: -20px;
-            
             min-height: 100px;
-           
-            
         }
 
         .pipe.bottom {
             transform: rotate(180deg); /* Rotation de 180 degrés */
-            
             bottom: -20px;
             min-height: 100px;
-           
         }
 
         .bird {
@@ -254,7 +172,7 @@
     <audio id="audio" src="./img/audio.wav"></audio>
 
     <script src="script.js"></script>
-     <script>
+    <script>
         var gravity = 0.1; // Gravité
         var velocity = 0; // Vitesse initiale
         var game = document.getElementById("game");
@@ -309,323 +227,17 @@
                 if (!gameover) {
                     // Mettre à jour la vitesse avec la gravité
                     velocity += gravity;
+
                     // Mettre à jour la position verticale de l'oiseau
                     var position = parseFloat(getComputedStyle(bird).top);
                     bird.style.top = position + velocity + "px";
 
-                    // Limiter la position de l'oiseau pour éviter qu'il ne sorte de l'écran
-                    if (position < 0 || position > (game.offsetHeight - bird.offsetHeight)) {
-                        gameOver(); // Perdre si l'oiseau touche le haut ou le bas
+                    // Incliner l'oiseau vers la droite pendant la chute
+                    if (velocity > 0) {
+                        bird.style.transform = "rotate(15deg)";
+                    } else {
+                        bird.style.transform = "rotate(0deg)";
                     }
-
-                    // Vérifier la collision avec les tuyaux
-                    var pipes = document.querySelectorAll(".pipe");
-                    pipes.forEach(function(pipe) {
-                        if (collision(bird, pipe)) {
-                            gameOver();
-                        }
-                    });
-
-                    // Demander une nouvelle animation
-                    requestAnimationFrame(update);
-                }
-            }
-
-            // Lancer la mise à jour
-            update();
-
-            // Créer et faire défiler les tuyaux
-            createAndMovePipes();
-        }
-
-        // Fonction pour vérifier la collision entre l'oiseau et un tuyau
-        function collision(bird, pipe) {
-            var birdRect = bird.getBoundingClientRect();
-            var pipeRect = pipe.getBoundingClientRect();
-
-            // Définir une marge de sécurité pour la collision
-            var safetyMargin = 0; // Ajustez cette valeur selon vos besoins
-
-            return !(
-                birdRect.bottom - safetyMargin < pipeRect.top ||
-                birdRect.top + safetyMargin > pipeRect.bottom ||
-                birdRect.right - safetyMargin < pipeRect.left ||
-                birdRect.left + safetyMargin > pipeRect.right
-            );
-        }
-
-        // Fonction pour arrêter le jeu en cas de collision
-        function gameOver() {
-            gameover = true; // Le jeu est terminé
-            clearInterval(pipeMoveInterval); // Arrête l'intervalle de défilement des tuyaux
-            document.getElementById("final-score").textContent = score / 2; // Affiche le score final
-            document.getElementById("game-over").style.display = "block"; // Affiche l'écran de fin de partie
-        }
-
-        // Créer et faire défiler les tuyaux
-        function createAndMovePipes() {
-            // Créer un intervalle pour ajouter les tuyaux
-            var pipeInterval = setInterval(function() {
-                var pipeHeightTop = Math.floor(Math.random() * 250) + 50; // Taille aléatoire des tuyaux
-                var pipeHeightBottom = game.offsetHeight - pipeHeightTop - 150; // Hauteur du tuyau basée sur la hauteur du jeu et la taille du tuyau supérieur
-                createPipe(pipeHeightTop, pipeHeightBottom);
-            }, pipeCreationInterval); // Intervalle entre chaque ajout de tuyau
-
-            // Faire défiler les tuyaux
-            pipeMoveInterval = setInterval(function() {
-                var pipes = document.querySelectorAll(".pipe");
-                pipes.forEach(function(pipe) {
-                    if (!gameover) {
-                        pipe.style.left = (parseInt(pipe.style.left) - 1.5) + "px"; // Faire défiler les tuyaux vers la gauche (diminué à 1.5 pixels)
-
-                        // Supprimer les tuyaux une fois qu'ils sortent de l'écran
-                        if (parseInt(pipe.style.left) < -50) {
-                            pipe.remove();
-                        }
-
-                        // Vérifie si le tuyau est passé avec succès
-                        if (parseInt(pipe.style.left) < 20 && !pipe.passed) {
-                            pipe.passed = true; // Marque le tuyau comme passé
-                            score++; // Incrémente le score
-
-                            // Jouer le son
-                            audio.currentTime = 0; // Réinitialise le son à 0 pour qu'il puisse être joué à chaque fois
-                            audio.play();
-
-                            // Met à jour l'affichage du score
-                            scoreDisplay.textContent = score / 2;
-
-                            // Vérifie si le score est un multiple de 5 pour accélérer les tuyaux
-                            if (score % 5 === 0) {
-                                pipeCreationInterval -= 100; // Réduit l'intervalle entre chaque création de tuyau
-                                clearInterval(pipeInterval); // Arrête l'intervalle actuel
-                                clearInterval(pipeMoveInterval); // Arrête l'intervalle de création de tuyaux actuel
-                                createAndMovePipes(); // Redémarre les intervalles avec la nouvelle vitesse
-                            }
-                        }
-                    }
-                });
-            }, 10); // Vitesse de défilement des tuyaux (diminuée à 10 millisecondes)
-        }
-
-        // Fonction pour créer un tuyau
-        function createPipe(heightTop, heightBottom) {
-            var pipeTop = document.createElement("img");
-            pipeTop.src = "./img/tuyaux.png";
-            pipeTop.classList.add("pipe", "top");
-            pipeTop.style.height = heightTop + "px";
-            pipeTop.style.left = "600px"; // Position initiale à droite du jeu
-            game.appendChild(pipeTop);
-
-            var pipeBottom = document.createElement("img");
-            pipeBottom.src = "./img/tuyaux.png";
-            pipeBottom.classList.add("pipe", "bottom");
-            pipeBottom.style.height = heightBottom + "px";
-            pipeBottom.style.left = "600px"; // Position initiale à droite du jeu
-            game.appendChild(pipeBottom);
-
-            // Ajoute une propriété "passed" au tuyau pour suivre s'il a été passé avec succès
-            pipeTop.passed = false;
-            pipeBottom.passed = false;
-        }
-
-        // Fonction pour revenir au menu principal
-        function backToMenu() {
-            // Actualiser la page
-            window.location.reload();
-        }
-    </script>
-</body>
-</html>
-    background: linear-gradient(to bottom right, #4b6cb7, #182848);
-    font-family: 'Quicksand', sans-serif;
-    color: #fff;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    
-}
-
-
-
-        .game {
-            position: relative;
-            width:290px;
-            height: 480px;
-            overflow: hidden;
-           
-            
-            margin-bottom: 2px;
-            
-            
-            display: none; /* Par défaut, le jeu est caché */
-        }
-
-        .pipe {
-            position: absolute;
-            width: 50px; /* Largeur des tuyaux */
-            height: auto; /* Hauteur ajustée selon l'image */
-        }
-
-        .pipe.top {
-            top: -20px;
-            
-            min-height: 100px;
-           
-            
-        }
-
-        .pipe.bottom {
-            transform: rotate(180deg); /* Rotation de 180 degrés */
-            
-            bottom: -20px;
-            min-height: 100px;
-           
-        }
-
-        .bird {
-            width: 40px; /* Largeur de l'oiseau */
-            height: auto; /* Hauteur ajustée selon l'image */
-            position: absolute;
-            right: 80%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #score {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: white;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px #000000;
-        }
-
-        /* CSS pour l'écran de fin de partie */
-        #game-over {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #1e90ff; /* Couleur de fond semi-transparente */
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            display: none; /* Par défaut, l'écran de fin de partie est caché */
-            z-index: 999; /* Assure que l'écran de fin de partie est au-dessus de tout le reste */
-        }
-
-        #game-over h2 {
-            font-size: 2em;
-            color: green; /* Couleur du texte */
-            text-shadow: 2px 2px 4px #000000; /* Ombre du texte */
-        }
-
-        #game-over p {
-            font-size: 1.5em;
-            color: #000000; /* Couleur du texte */
-            margin-bottom: 20px;
-        }
-
-        #game-over button {
-            background-color: #4CAF50; /* Couleur du bouton */
-            color: rgb(255, 255, 255); /* Couleur du texte du bouton */
-            padding: 15px 25px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #game-over button:hover {
-            background-color: #45a049; /* Couleur du bouton au survol */
-        }
-    </style>
-</head>
-<body>
-    <div class="blue-background">
-        <div class="container">
-            <div class="menu" id="menu">
-                <h1>Pupuce Bird</h1>
-                <button onclick="startGame()">Jouer</button>
-            </div>
-            <div class="game" id="game">
-                <div id="score">0</div>
-                <img class="bird" src="./img/adbird.png" alt="Bird">
-            </div>
-        </div>
-    </div>
-    <div id="game-over">
-        <h2>T'as perdu ma pupuce !</h2>
-        <div>Ton score est <span id="final-score">0</span>.</div>
-        <button onclick="backToMenu()">Retour au menu</button>
-    </div>
-
-    <!-- Audio -->
-    <audio id="audio" src="./img/audio.wav"></audio>
-
-    <script src="script.js"></script>
-     <script>
-        var gravity = 0.1; // Gravité
-        var velocity = 0; // Vitesse initiale
-        var game = document.getElementById("game");
-        var score = 0; // Variable pour stocker le score
-        var scoreDisplay = document.getElementById("score"); // Référence à l'élément d'affichage du score
-        var pipeCreationInterval = 1700; // Intervalle initial entre chaque création de tuyau (en millisecondes)
-        var pipeMoveInterval; // Référence à l'intervalle de défilement des tuyaux
-        var gameover = false; // Variable pour indiquer si le jeu est terminé
-        var audio = document.getElementById("audio"); // Élément audio
-
-        function startGame() {
-            var menu = document.getElementById("menu");
-
-            // Cacher le menu
-            menu.style.display = "none";
-            // Afficher le jeu
-            game.style.display = "block"; // Affichage du jeu
-
-            // Réinitialiser le score
-            score = 0;
-            scoreDisplay.textContent = score / 2;
-
-            // Supprimer tous les tuyaux existants
-            var pipes = document.querySelectorAll(".pipe");
-            pipes.forEach(function(pipe) {
-                pipe.remove();
-            });
-
-            // Réinitialiser l'intervalle de création de tuyaux
-            clearInterval(pipeMoveInterval);
-            pipeCreationInterval = 1700;
-
-            // Réinitialiser le jeu terminé
-            gameover = false;
-
-            // Réinitialiser la position de l'oiseau
-            var bird = document.querySelector(".bird");
-            bird.style.top = "50%";
-
-            // Réinitialiser la vitesse
-            velocity = 0;
-
-            // Ajouter un écouteur d'événements pour le clic
-            game.addEventListener("click", function() {
-                if (!gameover) {
-                    velocity = -2; // Vitesse vers le haut lors du clic
-                }
-            });
-
-            // Fonction de mise à jour de la position de l'oiseau
-            function update() {
-                if (!gameover) {
-                    // Mettre à jour la vitesse avec la gravité
-                    velocity += gravity;
-                    // Mettre à jour la position verticale de l'oiseau
-                    var position = parseFloat(getComputedStyle(bird).top);
-                    bird.style.top = position + velocity + "px";
 
                     // Limiter la position de l'oiseau pour éviter qu'il ne sorte de l'écran
                     if (position < 0 || position > (game.offsetHeight - bird.offsetHeight)) {
